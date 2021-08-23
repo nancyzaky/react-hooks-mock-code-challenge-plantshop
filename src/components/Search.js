@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
 function Search({ list, setList }) {
-  console.log(list);
-  const [val, setVal] = useState("");
   const searchVal = useRef("");
   return (
     <div className="searchbar">
@@ -14,16 +12,20 @@ function Search({ list, setList }) {
         ref={searchVal}
         onChange={() => {
           const searchlen = searchVal.current.value.length;
+          console.log(searchlen);
+          const newArr = [...list];
           if (searchlen > 0) {
-            const newArr = list.filter((item) => {
+            // setList(allPlants);
+
+            const filteredArr = newArr.filter((item) => {
               console.log(
                 item.name.slice(0, searchlen),
                 searchVal.current.value
               );
               return item.name.slice(0, searchlen) === searchVal.current.value;
             });
-            console.log(list);
-            setList(newArr);
+
+            setList(filteredArr);
           } else {
             fetch("http://localhost:6001/plants")
               .then((resp) => resp.json())
